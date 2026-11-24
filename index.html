@@ -1,32 +1,83 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EEGFlow · Visor 3D</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
-<style>
-:root{--bg:#f4f5f5;--surface:#fff;--fg:#24292e;--muted:#61666b;--line:rgba(36,41,46,.12);--accent:#3871dc;--accent-text:#1f62e0;--body:"Inter",-apple-system,"Segoe UI",Roboto,sans-serif}
-@media (prefers-color-scheme:dark){:root{--bg:#111217;--surface:#181b1f;--fg:#ccccdc;--muted:rgba(204,204,220,.65);--line:rgba(204,204,220,.12);--accent:#3d71d9;--accent-text:#6e9fff;color-scheme:dark}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.55 var(--body)}
-main{max-width:880px;margin:0 auto;padding:32px 16px 48px}
-h1{font-size:24px;font-weight:500;margin:0 0 4px}.lead{color:var(--muted);margin:0 0 24px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px;margin:0 0 24px}
-.card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:2px;padding:12px 16px;color:inherit;text-decoration:none}
-.card:hover{border-color:var(--accent)}.card h2{font-size:16px;font-weight:500;margin:0 0 4px}.card p{margin:0 0 8px;color:var(--muted);font-size:13px}
-.go{color:var(--accent-text);font-weight:500}
-section{background:var(--surface);border:1px solid var(--line);border-radius:2px;padding:12px 16px;margin:0 0 8px}
-section h3{font-size:14px;font-weight:500;margin:0 0 6px}section p{margin:0 0 6px}a{color:var(--accent-text)}
-.warn{border-left:3px solid #ff9830}
-</style></head><body><main>
-<h1>EEGFlow · Visor 3D</h1>
-<p class="lead">Cómo se propaga una crisis epiléptica entre los contactos de electrodos intracraneales, ventana a ventana.</p>
-<div class="grid"><a class="card" href="resp0779.html"><h2>RESP0779</h2>
-<p>35 de 68 contactos · 60 min de registro · crisis anotada a las 48:57</p><span class="go">Abrir visor →</span></a><a class="card" href="resp0699.html"><h2>RESP0699</h2>
-<p>64 de 133 contactos · 55 min de registro · crisis anotada a las 48:42</p><span class="go">Abrir visor →</span></a></div>
-<section><h3>Qué muestra</h3>
-<p>Cada esfera es un contacto de electrodo, no una neurona: registra la actividad sumada de una población grande de neuronas. Los contactos se dibujan en las coordenadas del propio paciente, sobre una corteza plantilla (fsaverage) ajustada por la región anotada de cada uno; orienta, pero no es la anatomía del paciente.</p>
-<p>El color indica cuántas desviaciones robustas (σ) está la longitud de línea de cada ventana de 10 s sobre la mediana del mismo contacto: tenue en lo habitual, amarillo en el umbral, rojo desde 6 σ. Con <b>Reproducir</b> o un clic en la línea de tiempo se recorre el registro; la crisis anotada es la región roja.</p>
-<p>Las anotaciones de crisis, zona de inicio, resección y región vienen del dataset; no son resultados del sistema ni una predicción.</p></section>
-<section class="warn"><h3>Uso experimental</h3><p>No destinado a diagnóstico ni decisiones clínicas.</p></section>
-<section><h3>Datos</h3>
-<p>RESPect long-term iEEG (OpenNeuro <a href="https://doi.org/10.18112/openneuro.ds003848.v1.0.3">ds003848 v1.0.3</a>), licencia CC0. Demuru M., van Blooijs D., Zweiphenning W. et al. 2021, <i>A practical workflow for organizing clinical intraoperative and long-term iEEG data in BIDS</i>.</p>
-<p>Features calculadas con EEGFlow (configuración <code>visor-features-v1</code>).</p></section>
-</main></body></html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>EEGFlow</title>
+<link rel="icon" href="app/eegflow/assets/icon.svg">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/browser@1.12.3/build/stlite.css">
+</head>
+<body>
+<div id="root"></div>
+<noscript>EEGFlow necesita JavaScript: la web corre en el navegador con stlite.</noscript>
+<script type="module">
+import { mount } from "https://cdn.jsdelivr.net/npm/@stlite/browser@1.12.3/build/stlite.js";
+mount({
+ "requirements": [
+  "httpx",
+  "pandas"
+ ],
+ "entrypoint": "eegflow/web.py",
+ "files": {
+  "eegflow/__init__.py": {
+   "url": "app/eegflow/__init__.py"
+  },
+  "eegflow/assets/icon.svg": {
+   "url": "app/eegflow/assets/icon.svg"
+  },
+  "eegflow/assets/logo.svg": {
+   "url": "app/eegflow/assets/logo.svg"
+  },
+  "eegflow/demo_api.py": {
+   "url": "app/eegflow/demo_api.py"
+  },
+  "eegflow/paginas/modelos.py": {
+   "url": "app/eegflow/paginas/modelos.py"
+  },
+  "eegflow/paginas/registros.py": {
+   "url": "app/eegflow/paginas/registros.py"
+  },
+  "eegflow/paginas/trabajos.py": {
+   "url": "app/eegflow/paginas/trabajos.py"
+  },
+  "eegflow/paginas/visor.py": {
+   "url": "app/eegflow/paginas/visor.py"
+  },
+  "eegflow/web.py": {
+   "url": "app/eegflow/web.py"
+  },
+  "eegflow/web_api.py": {
+   "url": "app/eegflow/web_api.py"
+  },
+  "eegflow/web_catalog.py": {
+   "url": "app/eegflow/web_catalog.py"
+  },
+  "eegflow/web_ml.py": {
+   "url": "app/eegflow/web_ml.py"
+  },
+  "eegflow/web_runs.py": {
+   "url": "app/eegflow/web_runs.py"
+  },
+  "eegflow/web_signal.py": {
+   "url": "app/eegflow/web_signal.py"
+  },
+  "eegflow/webview.py": {
+   "url": "app/eegflow/webview.py"
+  },
+  "eegflow/snapshot.json": {
+   "url": "app/snapshot.json"
+  }
+ },
+ "streamlitConfig": {
+  "client.toolbarMode": "viewer",
+  "theme.baseRadius": "0.5rem",
+  "theme.showWidgetBorder": true,
+  "theme.light.primaryColor": "#2a78d6",
+  "theme.light.linkColor": "#2a78d6",
+  "theme.dark.primaryColor": "#4c93e6",
+  "theme.dark.linkColor": "#6aa8ee"
+ }
+}, document.getElementById("root"));
+</script>
+</body>
+</html>
